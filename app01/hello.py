@@ -1,6 +1,7 @@
-def say_hello(name="World"):
-    return f"Hello {name}!"
+import fire
+
+def hello(name="World"):
+  return "Hello %s!" % name
 
 if __name__ == '__main__':
-    mensage = say_hello()
-    print(mensage)
+  fire.Fire(hello)

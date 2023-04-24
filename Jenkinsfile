@@ -10,7 +10,7 @@ pipeline {
                 echo "Building.."
                 sh '''
                 echo "doing build stuff.."
-                python3 app01/hello.py
+                pip install -r requirements.txt
                 '''
             }
         }
@@ -19,6 +19,7 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 echo "doing test stuff.."
+                python3 app01/hello.py --name=Jhon
                 '''
             }
         }
