@@ -10,7 +10,7 @@ pipeline {
                 echo "Building.."
                 sh '''
                 echo "doing build stuff.."
-                pip install -r requirements.txt
+                pip3 install -r app01/requirements.txt
                 '''
             }
         }
