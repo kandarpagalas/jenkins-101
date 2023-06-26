@@ -4,9 +4,7 @@ pipeline {
             label 'python-docker'
             }
       }
-    triggers {
-        pollSCM 'H/10 * * * *'
-    }
+    triggers { pollSCM 'H/10 * * * *' }
     stages {
         stage('Build') {
             steps {
