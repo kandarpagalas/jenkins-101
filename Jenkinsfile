@@ -4,6 +4,14 @@ pipeline {
             label 'python-docker'
             }
       }
+    options {
+        // Timeout counter starts AFTER agent is allocated
+        timeout(time: 120, unit: 'SECONDS')
+    }
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+    }
+    triggers { pollSCM('H */4 * * 1-5') }
     triggers { pollSCM 'H/10 * * * *' }
     stages {
         stage('Build') {
@@ -20,7 +28,7 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 echo "doing test stuff.."
-                python3 app01/hello.py --name=Kand
+                python3 app01/hello.py --name=${params.PERSON}
                 '''
             }
         }
