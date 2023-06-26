@@ -27,7 +27,9 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 echo "doing test stuff.."
-                python3 app01/hello.py --name=${params.PERSON}
+                echo "Hello ${params.PERSON}"
+                python3 app01/hello.py --name ${params.PERSON}
+                python3 app01/hello.py --name=Jhon}
                 '''
             }
         }
