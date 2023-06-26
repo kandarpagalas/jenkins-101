@@ -22,7 +22,7 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 echo "doing test stuff.."
-                python3 app01/hello.py --name=Jhon
+                python3 app01/hello.py --name=Kand
                 '''
             }
         }
