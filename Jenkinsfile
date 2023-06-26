@@ -11,8 +11,7 @@ pipeline {
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
     }
-    triggers { pollSCM('H */4 * * 1-5') }
-    triggers { pollSCM 'H/10 * * * *' }
+    triggers { pollSCM('H/10 * * * *') }
     stages {
         stage('Build') {
             steps {
