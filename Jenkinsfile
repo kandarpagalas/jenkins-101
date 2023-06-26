@@ -27,9 +27,7 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 echo "doing test stuff.."
-                echo "Hello ${params.PERSON}"
-                python3 app01/hello.py --name ${params.PERSON}
-                python3 app01/hello.py --name=Jhon}
+                python3 app01/hello.py --name=Jhon
                 '''
             }
         }
@@ -39,6 +37,11 @@ pipeline {
                 sh '''
                 echo "doing delivery stuff.."
                 '''
+                script {
+                    for (int i = 0; i < 10; ++i) {
+                        echo "Contando ${i}"
+                    }
+                }
             }
         }
     }
