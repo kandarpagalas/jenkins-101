@@ -15,18 +15,15 @@ pipeline {
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
 
+        booleanParam(name: 'skip_test', defaultValue: true, description: 'Set to true to skip the test stage')
+
     }
     triggers { pollSCM('H/2 * * * *') }
     stages {
         stage('Flow Control') {
-            if (env.BRANCH_NAME == 'main') {
-                steps {
-                    echo 'I only execute on the MAIN branch'
-                }
-            } else {
-                steps {
-                    echo 'I execute elsewhere'
-                }
+            when { expression { env.BRANCH_NAME == 'main' } }
+            steps {
+                echo 'I only execute on the MAIN branch'
             }
         }
         stage('Params') {
@@ -60,14 +57,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
-                script {
-                    for (int i = 0; i < 10; ++i) {
-                        echo "Contando ${i}"
-                    }
-                }
+                execute_stage('Deliver', params.skip_test)
             }
         }
     }
@@ -102,5 +92,15 @@ pipeline {
         cleanup { 
             echo 'Post cleanup message'
         }
+    }
+}
+
+def execute_stage(stage_name, skip) {
+    stage(stage_name) {
+        if(skip) {
+            echo "Skipping ${stage_name} stage"
+            return
+        }
+        // Add steps to test the application
     }
 }
