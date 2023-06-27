@@ -6,11 +6,6 @@ pipeline {
                 dockerHost 'unix:///var/run/docker.sock'
             }
             stage('Params') {
-                if (env.BRANCH_NAME == 'main') {
-                    echo 'I only execute on the master branch'
-                } else {
-                    echo 'I execute elsewhere'
-                }
             }
         }
     }
@@ -27,6 +22,13 @@ pipeline {
     }
     triggers { pollSCM('H/5 * * * *') }
     stages {
+        stage('Flow Control') {
+            if (env.BRANCH_NAME == 'main') {
+                echo 'I only execute on the MAIN branch'
+            } else {
+                echo 'I execute elsewhere'
+            }
+        }
         stage('Params') {
             steps {
                 echo "Printing params.."
