@@ -2,8 +2,11 @@ pipeline {
     agent {
         dockerContainer {
             image 'devopsjourney1/myjenkinsagents:python'
-            label 'docker-from-git'
+            dockerHost 'unix:///var/run/docker.sock'
         }
+    }
+    options {
+        timeout(time: 1, unit: 'MINUTES') 
     }
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
@@ -55,6 +58,38 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    post { 
+        always { 
+            echo 'Post always message'
+        }
+        changed { 
+            echo 'Post changed message'
+        }
+        fixed { 
+            echo 'Post fixed message'
+        }
+        regression { 
+            echo 'Post regression message'
+        }
+        aborted { 
+            echo 'Post aborted message'
+        }
+        failure { 
+            echo 'Post failure message'
+        }
+        success { 
+            echo 'Post success message'
+        }
+        unstable { 
+            echo 'Post unstable message'
+        }
+        unsuccessful { 
+            echo 'Post unsuccessful message'
+        }
+        cleanup { 
+            echo 'Post cleanup message'
         }
     }
 }
