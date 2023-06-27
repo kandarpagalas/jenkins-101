@@ -1,8 +1,17 @@
 pipeline {
     agent {
-        dockerContainer {
-            image 'devopsjourney1/myjenkinsagents:python'
-            dockerHost 'unix:///var/run/docker.sock'
+        node {
+            dockerContainer {
+                image 'devopsjourney1/myjenkinsagents:python'
+                dockerHost 'unix:///var/run/docker.sock'
+            }
+            stage('Params') {
+                if (env.BRANCH_NAME == 'main') {
+                    echo 'I only execute on the master branch'
+                } else {
+                    echo 'I execute elsewhere'
+                }
+            }
         }
     }
     options {
