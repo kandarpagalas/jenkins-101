@@ -1,12 +1,8 @@
 pipeline {
     agent {
-        node {
-            dockerContainer {
-                image 'devopsjourney1/myjenkinsagents:python'
-                dockerHost 'unix:///var/run/docker.sock'
-            }
-            stage('Params') {
-            }
+        dockerContainer {
+            image 'devopsjourney1/myjenkinsagents:python'
+            dockerHost 'unix:///var/run/docker.sock'
         }
     }
     options {
@@ -20,13 +16,17 @@ pipeline {
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
 
     }
-    triggers { pollSCM('H/5 * * * *') }
+    triggers { pollSCM('H/2 * * * *') }
     stages {
         stage('Flow Control') {
             if (env.BRANCH_NAME == 'main') {
-                echo 'I only execute on the MAIN branch'
+                steps {
+                    echo 'I only execute on the MAIN branch'
+                }
             } else {
-                echo 'I execute elsewhere'
+                steps {
+                    echo 'I execute elsewhere'
+                }
             }
         }
         stage('Params') {
