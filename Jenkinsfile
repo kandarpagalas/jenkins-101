@@ -21,9 +21,9 @@ pipeline {
     triggers { pollSCM('H/2 * * * *') }
     stages {
         stage('Flow Control') {
-            when { expression { env.BRANCH_NAME == 'main' } }
+            // when { expression { env.BRANCH_NAME != 'main' } }
             steps {
-                echo 'I only execute on the MAIN branch'
+                echo 'I only execute on the ${env.BRANCH_NAME} branch'
             }
         }
         stage('Params') {
