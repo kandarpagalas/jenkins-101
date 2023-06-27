@@ -6,11 +6,12 @@ pipeline {
         }
     }
     options {
-        timeout(time: 1, unit: 'MINUTES') 
+        timeout(time: 1, unit: 'MINUTES')
+        parallelsAlwaysFailFast()
     }
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        text(name: 'BIOGRAPHY', defaultValue: 'Hi, I am a Data Engineer', description: 'Enter some information about the person')
         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
@@ -21,9 +22,9 @@ pipeline {
     triggers { pollSCM('H/2 * * * *') }
     stages {
         stage('Flow Control') {
-            // when { expression { env.BRANCH_NAME != 'main' } }
+            // when { expression { params.GIT_BRANCH != 'main' } }
             steps {
-                echo 'I only execute on the ${env.BRANCH_NAME} branch'
+                echo "I only execute on the ${params.GIT_BRANCH} branch"
             }
         }
         stage('Params') {
@@ -34,6 +35,8 @@ pipeline {
                 echo "Toggle: ${params.TOGGLE}"
                 echo "Choice: ${params.CHOICE}"
                 echo "Password: ${params.PASSWORD}"
+                echo "Branch: ${params.GIT_BRANCH}"
+                echo "Build ID: ${params.BUILD_ID}"
             }
         }
         stage('Parallel Stage') {
@@ -72,7 +75,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 echo 'Deliver....'
-                execute_stage('Deliver', params.skip_test)
+                execute_stage('From function', params.skip_test)
             }
         }
     }
