@@ -36,6 +36,21 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
             }
         }
+        stage('Parallel Stage') {
+            // when { branch 'main' }
+            failFast true
+            parallel {
+                stage('Branch A'){ steps { echo "On Branch A" } }
+                stage('Branch B'){ steps { echo "On Branch B" } }
+                stage('Branch C'){ 
+                    stages {
+                        stage('Nested 1'){ steps { echo "On Branch C, nested 1" } }
+                        stage('Nested 2'){ steps { echo "On Branch C, nested 2" } }
+                    }
+                }
+            }
+
+        }
         stage('Build') {
             steps {
                 echo "Building.."
