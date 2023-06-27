@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker {
+        dockerContainer {
             image 'devopsjourney1/myjenkinsagents:python'
             label 'docker-from-git'
         }
@@ -13,7 +13,7 @@ pipeline {
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
 
     }
-    triggers { pollSCM('H/10 * * * *') }
+    triggers { pollSCM('H/5 * * * *') }
     stages {
         stage('Params') {
             steps {
